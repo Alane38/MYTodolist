@@ -1,24 +1,138 @@
+import React, { useState } from "react";
 import Head from "next/head";
 import { Inter } from "next/font/google";
 import styles from "@/styles/Todo.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
+import data from "../data/data.json";
 
 const inter = Inter({ subsets: ["latin"] });
 
-const checked = item => {
+if (typeof window !== "undefined") {
+  console.log(data);
+  console.log(data.todoItems.length);
+}
+
+const errorMessage = (type) => {
+  const span = document.querySelector("#errorMessage");
+  if (type === "void") {
+    span.textContent = "You must write something";
+  } else if (type === "lowLength") {
+    span.textContent = "You must write more than 3 characters";
+  }
+
+  setTimeout(() => {
+    span.textContent = "";
+  }, 2000);
+};
+
+const addTodo = () => {
+  const input = document.querySelector("input");
+  if (input.value === "") {
+    errorMessage("void");
+  } else if (input.value.length <= 3) {
+    errorMessage("lowLength");
+  } else {
+    const input = document.querySelector("input");
+    const ul = document.querySelector("ul");
+    const li = document.createElement("li");
+    const div = document.createElement("div");
+    const label = document.createElement("label");
+    const button = document.createElement("button");
+    const icon = document.createElement("FontAwesomeIcon");
+
+    label.textContent = input.value;
+    input.value = "";
+
+    icon.setAttribute("icon", faTrashCan);
+    icon.setAttribute("size", "1x");
+    icon.setAttribute("color", "black");
+
+    div.setAttribute("id", "div-checked");
+
+    li.appendChild(div);
+    div.appendChild(label);
+    li.appendChild(button);
+    button.appendChild(icon);
+
+    ul.appendChild(li);
+
+    button.addEventListener("click", deleted);
+    li.addEventListener("click", checked);
+
+    input.focus();
+  }
+};
+
+const checked = (item) => {
   const li = item.target.closest("li");
   let label = li.querySelector("label");
   let div = li.querySelector("#div-checked");
 
-  label.style.textDecoration = "line-through";
-  div.style.backgroundColor = "grey";
-}
+  if (label.style.textDecoration === "line-through") {
+    label.style.textDecoration = "none";
+    div.style.backgroundColor = "rgba(255, 255, 255, 0.72)";
+  } else {
+    label.style.textDecoration = "line-through";
+    div.style.backgroundColor = "rgb(0, 150, 0)";
+  }
+};
 
-const deleted = item => {
+const deleted = (item) => {
   const li = item.target.closest("li");
   li.remove();
+};
+
+let items = [];
+for (let i = 0; i < data.todoItems.length; i++) {
+  items.push(
+    <li key={i} onClick={checked}>
+      <div id="div-checked">
+        <label>{data.todoItems[i].label}</label>
+      </div>
+      <button onClick={deleted}>
+        <FontAwesomeIcon icon={faTrashCan} size="1x" color="black" />
+      </button>
+    </li>
+  );
 }
+
+const generateList = () => {
+  const todoList = [];
+  for (let i = 0; i < data.todoItems.length; i++) {
+    const item = data.todoItems[i];
+    if (item.completed) {
+      todoList.push(
+        <li key={i} onClick={checked}>
+          <div
+            id="div-checked"
+            style={{
+              backgroundColor: "rgb(0, 150, 0)",
+              textDecoration: "line-through",
+            }}
+          >
+            <label>{item.label}</label>
+          </div>
+          <button onClick={deleted}>
+            <FontAwesomeIcon icon={faTrashCan} size="1x" color="black" />
+          </button>
+        </li>
+      );
+    } else {
+      todoList.push(
+        <li key={i} onClick={checked}>
+          <div id="div-checked">
+            <label>{item.label}</label>
+          </div>
+          <button onClick={deleted}>
+            <FontAwesomeIcon icon={faTrashCan} size="1x" color="black" />
+          </button>
+        </li>
+      );
+    }
+  }
+  return todoList;
+};
 
 export default function Home() {
   return (
@@ -32,41 +146,28 @@ export default function Home() {
       <main>
         <div className={styles.first_section}>
           <h1>MYTodolist</h1>
+          <span id="errorMessage"></span>
           <div className={styles.adder}>
             <input type="text" />
-            <button>Add</button>
+            <button onClick={addTodo}>Add</button>
           </div>
 
           <div className={styles.list}>
+            <ul>{generateList()}</ul>
+          </div>
+
+          {/* <div className={styles.list}>
             <ul>
               <li onClick={checked}>
                 <div id="div-checked">
-                  <label>xfhxfffg</label>
-                </div>
-                <button onClick={deleted}>
-                  <FontAwesomeIcon icon={faTrashCan} size="1x" color="black" />
-                </button>
-              </li>
-
-              <li onClick={checked}>
-                <div id="div-checked">
-                  <label>xfhxffdxfdhfddfffffffffffffffffg</label>
-                </div>
-                <button onClick={deleted}>
-                  <FontAwesomeIcon icon={faTrashCan} size="1x" color="black" />
-                </button>
-              </li>
-
-              <li onClick={checked}>
-                <div id="div-checked">
-                  <label>xfhxffdxfdhfdggggffffffffffffffffffffffffffffffg</label>
+                  <label>test</label>
                 </div>
                 <button onClick={deleted}>
                   <FontAwesomeIcon icon={faTrashCan} size="1x" color="black" />
                 </button>
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </main>
     </>

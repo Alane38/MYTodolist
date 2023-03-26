@@ -1,0 +1,109 @@
+{
+    "todoItems": [
+        {
+            "id": 1,
+            "label": "Cook dinner",
+            "completed": true
+        },
+        {
+            "id": 2,
+            "label": "Wash dishes",
+            "completed": false
+        },
+        {
+            "id": 3,
+            "label": "Go to the gym",
+            "completed": true
+        },
+        {
+            "id": 4,
+            "label": "Go to the store",
+            "completed": true
+        },
+        {
+            "id": 5,
+            "label": "Go to the bank",
+            "completed": false
+        },
+        {
+            "id": 6,
+            "label": "Go to the post office",
+            "completed": true
+        },
+        {
+            "id": 7,
+            "label": "Go to the library",
+            "completed": false
+        },
+        {
+            "id": 8,
+            "label": "Go to the park",
+            "completed": false
+        },
+        {
+            "id": 9,
+            "label": "Go to the mall",
+            "completed": false
+        },
+        {
+            "id": 10,
+            "label": "Go to the movies",
+            "completed": true
+        },
+        {
+            "id": 11,
+            "label": "Go to the beach",
+            "completed": false
+        },
+        {
+            "id": 12,
+            "label": "Go to the zoo",
+            "completed": false
+        },
+        {
+            "id": 13,
+            "label": "Go to the museum",
+            "completed": true
+        },
+        {
+            "id": 14,
+            "label": "Go to the aquarium",
+            "completed": false
+        },
+        {
+            "id": 15,
+            "label": "Go to the amusement park",
+            "completed": true
+        },
+        {
+            "id": 16,
+            "label": "Go to the arcade",
+            "completed": false
+        },
+        {
+            "id": 17,
+            "label": "Go to the bowling alley",
+            "completed": false
+        },
+        {
+            "id": 18,
+            "label": "Go to the casino",
+            "completed": true
+        },
+        {
+            "id": 19,
+            "label": "Go to the concert",
+            "completed": false
+        },
+        {
+            "id": 20,
+            "label": "Go to the fair",
+            "completed": false
+        },
+        {
+            "id": 21,
+            "label": "Go to the flea market",
+            "completed": false
+        }
+    ]
+}
