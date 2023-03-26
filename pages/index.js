@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import Head from "next/head";
 import { Inter } from "next/font/google";
+
 import styles from "@/styles/Todo.module.css";
+import data from "../data/data.json";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashCan } from "@fortawesome/free-solid-svg-icons";
-import data from "../data/data.json";
+import { faRectangleList } from "@fortawesome/free-solid-svg-icons";
+import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
+import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
+
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -134,6 +140,36 @@ const generateList = () => {
   return todoList;
 };
 
+const getCountItems = () => {
+  let dataCountItems = [];
+  for (let i = 0; i < data.todoItems.length; i++) {
+    dataCountItems.push(data.todoItems[i]);
+  }
+  const count = dataCountItems.length;
+
+  return count;
+};
+
+const getCheckedItems = () => {
+  let dataCheckedItems = [];
+  for (let i = 0; i < data.todoItems.length; i++) {
+    dataCheckedItems.push(data.todoItems[i]);
+  }
+  const count = dataCheckedItems.filter((item) => item.completed === true).length;
+
+  return count
+}
+
+const getUncheckedItems = () => {
+  let dataUncheckedItems = [];
+  for (let i = 0; i < data.todoItems.length; i++) {
+    dataUncheckedItems.push(data.todoItems[i]);
+  }
+  const count = dataUncheckedItems.filter((item) => item.completed === false).length;
+
+  return count;
+};
+
 export default function Home() {
   return (
     <>
@@ -150,6 +186,21 @@ export default function Home() {
           <div className={styles.adder}>
             <input type="text" />
             <button onClick={addTodo}>Add</button>
+          </div>
+
+          <div className={styles.info}>
+            <h3>
+              <FontAwesomeIcon icon={faRectangleList} size="1x" color="cyan" className={styles.fontawesomeIconsStats} />
+              <span>{getCountItems()}</span>
+            </h3>
+            <h3>
+              <FontAwesomeIcon icon={faSquareCheck} size="1x" color="#00ff00" className={styles.fontawesomeIconsStats} />
+              <span>{getCheckedItems()}</span>
+            </h3>
+            <h3>
+              <FontAwesomeIcon icon={faSquareXmark} size="1x" color="red" className={styles.fontawesomeIconsStats} />
+              <span>{getUncheckedItems()}</span>
+            </h3>
           </div>
 
           <div className={styles.list}>
