@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { Inter } from "next/font/google";
 
 import styles from "@/styles/Todo.module.css";
+// import getServerSideProps from "@/components/writeJSON";
 import data from "../data/data.json";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,12 +12,11 @@ import { faRectangleList } from "@fortawesome/free-solid-svg-icons";
 import { faSquareCheck } from "@fortawesome/free-solid-svg-icons";
 import { faSquareXmark } from "@fortawesome/free-solid-svg-icons";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 if (typeof window !== "undefined") {
-  console.log(data);
-  console.log(data.todoItems.length);
+  // console.log(data);
+  // console.log(data.todoItems.length);
 }
 
 const errorMessage = (type) => {
@@ -155,22 +155,33 @@ const getCheckedItems = () => {
   for (let i = 0; i < data.todoItems.length; i++) {
     dataCheckedItems.push(data.todoItems[i]);
   }
-  const count = dataCheckedItems.filter((item) => item.completed === true).length;
+  const count = dataCheckedItems.filter(
+    (item) => item.completed === true
+  ).length;
 
-  return count
-}
+  return count;
+};
 
 const getUncheckedItems = () => {
   let dataUncheckedItems = [];
   for (let i = 0; i < data.todoItems.length; i++) {
     dataUncheckedItems.push(data.todoItems[i]);
   }
-  const count = dataUncheckedItems.filter((item) => item.completed === false).length;
+  const count = dataUncheckedItems.filter(
+    (item) => item.completed === false
+  ).length;
 
   return count;
 };
 
 export default function Home() {
+
+  // const [todoItems, setTodoItems] = useState([]);
+
+  // useEffect(() => {
+  //   setTodoItems(data.todoItems);
+  // }, []);
+
   return (
     <>
       <Head>
@@ -182,43 +193,47 @@ export default function Home() {
       <main>
         <div className={styles.first_section}>
           <h1>MYTodolist</h1>
-          <span id="errorMessage"></span>
-          <div className={styles.adder}>
-            <input type="text" />
-            <button onClick={addTodo}>Add</button>
-          </div>
+          <div className={styles.container}>
+            <span id="errorMessage"></span>
+            <div className={styles.info}>
+              <h3>
+                <FontAwesomeIcon
+                  icon={faRectangleList}
+                  size="1x"
+                  color="cyan"
+                  className={styles.fontawesomeIconsStats}
+                />
+                <span id="getCountItems">{getCountItems()}</span>
+              </h3>
+              <h3>
+                <FontAwesomeIcon
+                  icon={faSquareCheck}
+                  size="1x"
+                  color="#00ff00"
+                  className={styles.fontawesomeIconsStats}
+                />
+                <span id="getCheckedItems">{getCheckedItems()}</span>
+              </h3>
+              <h3>
+                <FontAwesomeIcon
+                  icon={faSquareXmark}
+                  size="1x"
+                  color="red"
+                  className={styles.fontawesomeIconsStats}
+                />
+                <span id="getUncheckedItems">{getUncheckedItems()}</span>
+              </h3>
+            </div>
 
-          <div className={styles.info}>
-            <h3>
-              <FontAwesomeIcon icon={faRectangleList} size="1x" color="cyan" className={styles.fontawesomeIconsStats} />
-              <span>{getCountItems()}</span>
-            </h3>
-            <h3>
-              <FontAwesomeIcon icon={faSquareCheck} size="1x" color="#00ff00" className={styles.fontawesomeIconsStats} />
-              <span>{getCheckedItems()}</span>
-            </h3>
-            <h3>
-              <FontAwesomeIcon icon={faSquareXmark} size="1x" color="red" className={styles.fontawesomeIconsStats} />
-              <span>{getUncheckedItems()}</span>
-            </h3>
-          </div>
+            <div className={styles.adder}>
+              <input type="text" />
+              <button onClick={addTodo}>Add</button>
+            </div>
 
-          <div className={styles.list}>
-            <ul>{generateList()}</ul>
+            <div className={styles.list}>
+              <ul>{generateList()}</ul>
+            </div>
           </div>
-
-          {/* <div className={styles.list}>
-            <ul>
-              <li onClick={checked}>
-                <div id="div-checked">
-                  <label>test</label>
-                </div>
-                <button onClick={deleted}>
-                  <FontAwesomeIcon icon={faTrashCan} size="1x" color="black" />
-                </button>
-              </li>
-            </ul>
-          </div> */}
         </div>
       </main>
     </>
